@@ -1,0 +1,37 @@
+projectName: DnacEventHandler
+template: node-express-serverless
+repoName: DnacEventHandler
+repoPath: wwwin-github.cisco.com/DevNet
+models:
+  event:
+    indexes: []
+    fields:
+      name: "string"
+      description: "string"
+      category: "string"
+      status: "string"
+      severity: "string"
+      priority: "string"
+      thresholdDefinitions: "string"
+      assignedTo: "string"
+      actualServiceId: "string"
+      workflowIndicatorTrigger: "string"
+      timestamp: "long"
+  rule:
+    indexes: []
+    fields:
+      name: "string"
+      if: "string"
+      condition: "string"
+      else: "string"
+      enabled: "bool"
+properties:
+  host: 0.0.0.0
+  port: 8080
+  storage: smartsheet
+aspects:
+  drone: true
+  policy: true
+  mockup: false
+  swagger: true
+

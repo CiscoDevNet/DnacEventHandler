@@ -1,0 +1,41 @@
+service: dnaceventhandler
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+  kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}
+  contentEncoding:
+    minimumCompressionSize: 860
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: ${opt:region, 'ap-southeast-1'}
+  deploymentBucket: devnet-gocreate-${self:provider.region}-deployments
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+      - KMS:Decrypt
+      Resource: ${self:custom.kmsSecrets.keyArn}
+  environment:
+    REGION: ${self:custom.region}
+    STAGE: ${self:custom.stage}
+    CISCOSPARK_ACCESS_TOKEN: ZjFlMmMyMDUtNTkyNS00ZDdhLWE0NDctYTQ3ZTZhOTlhMTlkZjZiY2VmNWEtZmQ0
+    TROPO_TOKEN: 41457461766c49436f4c6b56446e436f746a6c4b504c7458465a59495958627566436a696851797174456177
+    SMARTSHEET_WORKSPACE: "4270593995499396"
+    SMARTSHEET_TOKEN: ${opt:SMARTSHEET_TOKEN, self:custom.kmsSecrets.secrets.SMARTSHEET_TOKEN}
+    RULES_SHEET: 'devnet-${self:service}-rule-${self:custom.stage}'
+
+functions:
+  app:
+    handler: main.handler
+    events:
+    - http: ANY /
+    - http: 'ANY {proxy+}'
+
+
+plugins:
+  - serverless-kms-secrets
+  - serverless-content-encoding
+  - serverless-offline

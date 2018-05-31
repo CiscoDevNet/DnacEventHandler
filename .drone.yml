@@ -1,0 +1,30 @@
+pipeline:
+  build:
+    image: node:8
+    environment:
+      - NPM_CONFIG_LOGLEVEL=warn
+    commands:
+      - npm install
+      - npm run test
+
+  deploy:
+    image: robbrazier/drone-serverless
+    stage: dev
+    when:
+      event: [ tag ]
+
+  notify:
+    image: cliang2/drone-spark
+    auth_token: MmY2NzliMWYtMWRkMi00YzNjLTgxMzYtNGQyZmQwMTY5ZjE3MzA0ZDA1NTUtYmU4
+    roomName: "DevNet Builds"
+    message: "Great job on your new DnacEventHandler service deployment!!!"
+    when:
+      status: [ success ]
+
+  notify-fail:
+    image: cliang2/drone-spark
+    auth_token: MmY2NzliMWYtMWRkMi00YzNjLTgxMzYtNGQyZmQwMTY5ZjE3MzA0ZDA1NTUtYmU4
+    roomName: "DevNet Builds"
+    message: "Whoops, your DnacEventHandler service deployment failed!!!"
+    when:
+      status: [ failure ]

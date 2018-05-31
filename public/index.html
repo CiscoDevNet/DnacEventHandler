@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="https://developer.cisco.com/img/favicon.ico" />
+    <script src="https://vuejs.org/js/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Signika+Negative:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+        crossorigin="anonymous"></script>
+    <title>Rule Editor - DNAC EventHandler</title>
+</head>
+
+<body>
+    <!--
+    <div :class='(this.editingRuleModel ? "editing-mode" : "")' id="app">
+        <div class="container">
+            <div role="main">
+                <div class="jumbotron page-head-section">
+                    <h1 class="display-3">Rule Editor</h1>
+                    <p class="lead">for DNAC Event Handler</p>
+                </div>
+
+                <div v-show="loading" style="text-align:center;margin-bottom:20px;">
+                    <i class="fas fa-4x fa-spinner fa-pulse"></i>
+                </div>
+
+                <table :class='"table table-bordered" + (rule.id == blinkRuleId ? " blink-rule" : "")' v-for="(rule, index) in rules">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" style="width:1%;"># {{index + 1}}</th>
+                            <th scope="col" class="line">
+                                <span>{{rule.name}}</span>
+                                <div v-if='!deletingRule || (rule.id != deletingRule.id)' class='rule-toolbar'>
+                                    <i class="fas fa-pencil-alt" title="Edit" @click='editRule(rule)'></i>
+                                    <i class="fas fa-trash-alt" title="Remove" @click='setDeletingRule(rule)'></i>
+                                </div>
+                                <div v-else class="del-confirm">
+                                    <span class="del-confirm-title">Delete it?</span>
+                                    <button class="btn btn-default btn-sm" @click='cancelDeleting()'>Cancel</button>
+                                    <button class="btn btn-danger btn-sm" @click='confirmDeleting()'>Confirm</button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Condition</th>
+                            <td>{{rule.condition}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">If</th>
+                            <td>
+                                <pre>{{JSON.stringify(rule.if,null,2)}}</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Else</th>
+                            <td>
+                                <pre>{{JSON.stringify(rule.else,null,2)}}</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button v-show="!loading" type="button" class="btn btn-info" @click="createRule">Create New Rule</button>
+            </div>
+
+            <footer class="footer">
+                <p>&copy;
+                    <a href="https://developer.cisco.com" target="_blank">Cisco DevNet</a> 2018</p>
+            </footer>
+        </div>
+
+        <rule-dialog v-if='editingRuleModel' :busy='busy' @ok='onSubmitRule()' @close='onCancelEditing'>
+            <rule-form :rule='editingRuleModel' @input='onChangeField($event)' @actiontype='onChangeActionType($event)' @actionfield='onChangeActionContent($event)'>
+            </rule-form>
+        </rule-dialog>
+    </div>
+    -->
+    <!-- /container -->
+
+    <div id='app'>
+        <application></application>
+    </div>
+
+    <template id='ipt-field'>
+        <div class="ipt-field">
+            <div :class='type == "textarea" ? "label align-top" : "label"'>{{label}}</div>
+            <div class="ipt-box">
+                <input v-if='!type || type == "input"' :value="value" @input="update($event.target.value)" />
+                <textarea v-if='type == "textarea"' :value="value" @input="update($event.target.value)" rows='4'></textarea>
+            </div>
+        </div>
+    </template>
+
+    <template id='rule-action'>
+        <div class="rule-action">
+            <div class="action-type">
+                <div class="label">action</div>
+                <div class="select-box">
+                    <select @change="changeType($event.target.value)">
+                        <option value='' :selected='action.type == ""'>none</option>
+                        <option value='tropo' :selected='action.type == "tropo"'>tropo</option>
+                        <option value='spark' :selected='action.type == "spark"'>spark</option>
+                        <option value='email' :selected='action.type == "email"'>email</option>
+                        <option value='http' :selected='action.type == "http"'>http</option>
+                    </select>
+                </div>
+            </div>
+            <div v-if='action.type == ""' class='none-ipt'></div>
+            <div v-if='action.type == action.tropo.action'>
+                <ipt-field label='content' :value='action.tropo.json' @input='changeField(action.tropo.action, $event)' type='textarea'></ipt-field>
+            </div>
+            <div v-if='action.type == action.spark.action'>
+                <ipt-field label='content' :value='action.spark.json' @input='changeField(action.spark.action, $event)' type='textarea'></ipt-field>
+            </div>
+            <div v-if='action.type == action.email.action'>
+                <ipt-field label='content' :value='action.email.json' @input='changeField(action.email.action, $event)' type='textarea'></ipt-field>
+            </div>
+            <div v-if='action.type == action.http.action'>
+                <ipt-field label='content' :value='action.http.json' @input='changeField(action.http.action, $event)' type='textarea'></ipt-field>
+            </div>
+        </div>
+    </template>
+
+    <template id='rule-form'>
+        <div class="rule-form">
+            <div class="ipt-section">
+                <ipt-field label='name' :value='rule.name' @input='updateField("name", $event)'></ipt-field>
+                <ipt-field label='condition' :value='rule.condition' @input='updateField("condition", $event)'></ipt-field>
+            </div>
+            <div class="ipt-section">
+                <div class="action-group">if</div>
+                <rule-action :action='rule.If' @change='changeActionType("If", $event)' @input='changeActionField("If", $event)'></rule-action>
+            </div>
+            <div class="ipt-section">
+                <div class="action-group">else</div>
+                <rule-action :action='rule.Else' @change='changeActionType("Else", $event)' @input='changeActionField("Else", $event)'></rule-action>
+            </div>
+        </div>
+    </template>
+
+    <template id='rule-dialog'>
+        <div class='dialog-layer'>
+            <div class="dialog-layer-bg"></div>
+            <div class='dialog'>
+                <div class="dialog-header">
+                    <div class="title">Rule Editor</div>
+                    <div class="close" @click="onClose"></div>
+                </div>
+                <div class="dialog-body">
+                    <slot></slot>
+                </div>
+                <div class='dialog-footer'>
+                    <div :class='"btn " + (busy ? "btn-secondary" : "btn-info")' @click="onOK">
+                        <span>Save</span>
+                        <i v-if='busy' class="fas fa-spinner fa-pulse loading-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id='application'>
+        <div :class='(this.editingRuleModel ? "editing-mode" : "")'>
+            <div class="container">
+                <div role="main">
+                    <div class="jumbotron page-head-section">
+                        <h1 class="display-3">Rule Editor</h1>
+                        <p class="lead">for DNAC Event Handler</p>
+                    </div>
+    
+                    <div v-show="loading" style="text-align:center;margin-bottom:20px;">
+                        <i class="fas fa-4x fa-spinner fa-pulse"></i>
+                    </div>
+    
+                    <table :class='"table table-bordered" + (rule.id == blinkRuleId ? " blink-rule" : "")' v-for="(rule, index) in rules">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" style="width:1%;"># {{index + 1}}</th>
+                                <th scope="col" class="line">
+                                    <span>{{rule.name}} ({{rule.id}})</span>
+                                    <div v-if='!deletingRule || (rule.id != deletingRule.id)' class='rule-toolbar'>
+                                        <i class="fas fa-pencil-alt" title="Edit" @click='editRule(rule)'></i>
+                                        <i class="fas fa-trash-alt" title="Remove" @click='setDeletingRule(rule)'></i>
+                                    </div>
+                                    <div v-else class="del-confirm">
+                                        <span class="del-confirm-title">Delete it?</span>
+                                        <button class="btn btn-default btn-sm" @click='cancelDeleting()'>Cancel</button>
+                                        <button class="btn btn-danger btn-sm" @click='confirmDeleting()'>Confirm</button>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Condition</th>
+                                <td>{{rule.condition}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">If</th>
+                                <td>
+                                    <pre>{{JSON.stringify(rule.if,null,2)}}</pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Else</th>
+                                <td>
+                                    <pre>{{JSON.stringify(rule.else,null,2)}}</pre>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <button v-show="!loading" type="button" class="btn btn-info" @click="createRule">Create New Rule</button>
+                </div>
+    
+                <footer class="footer">
+                    <p>&copy;
+                        <a href="https://developer.cisco.com" target="_blank">Cisco DevNet</a> 2018</p>
+                </footer>
+            </div>
+    
+            <rule-dialog v-if='editingRuleModel' :busy='busy' @ok='onSubmitRule()' @close='onCancelEditing'>
+                <rule-form :rule='editingRuleModel' @input='onChangeField($event)' @actiontype='onChangeActionType($event)' @actionfield='onChangeActionContent($event)'>
+                </rule-form>
+            </rule-dialog>
+        </div>
+    </template>
+
+</body>
+<script src="scripts/app.js"></script>
+
+</html>

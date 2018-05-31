@@ -1,0 +1,60 @@
+{
+  "policies": {
+    "/v1/rules": {
+      "read": [
+        {
+          "role": "*"
+        },
+        {
+          "user": "*"
+        },
+        {
+          "company": "*"
+        },
+        {
+          "domain": "*"
+        }
+      ],
+      "write": [
+        {
+          "role": "*"
+        },
+        {
+          "role": "*"
+        }
+      ]
+    },
+    "/v1/rules/{}": {
+      "read": [
+        {
+          "role": "*"
+        },
+        {
+          "user": "*"
+        },
+        {
+          "company": "*"
+        },
+        {
+          "domain": "*"
+        }
+      ],
+      "write": [
+        {
+          "role": "*"
+        },
+        {
+          "role": "*"
+        }
+      ],
+      "delete": [
+        {
+          "role": "*"
+        },
+        {
+          "role": "*"
+        }
+      ]
+    }
+  }
+}

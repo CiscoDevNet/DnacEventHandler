@@ -1,0 +1,316 @@
+body {
+    margin: 0;
+    font-family: Signika Negative;
+    overflow: hidden;
+}
+
+#app {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+#app.editing-mode {
+    overflow-y: hidden;
+}
+
+.footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+.loading {
+    background-image: url("../images/loading.png");
+}
+
+.line {
+    display: flex;
+    align-items: center;
+}
+
+.line span {
+    flex-grow: 1;
+}
+
+
+.line i {
+    flex-grow: 0;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.line i:hover {
+    color: #aaa;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+.jumbotron .btn {
+    padding: 14px 24px;
+    font-size: 21px;
+}
+
+.navbar {
+    background-image: linear-gradient(to bottom, #f7f7f7 0%, #eee 100%);
+    border: 1px solid #e5e5e5;
+}
+
+button {
+    text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav {
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: flex;
+    }
+
+    .navbar-nav .nav-item {
+        -ms-flex: 1 0 auto;
+        -webkit-box-flex: 1;
+        flex: 1 0 auto;
+    }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .masthead,
+    .marketing,
+    .footer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+form.main > .form-group > label {
+    font-weight: bold;
+}
+
+.service-card {
+    margin-top: 10px !important;
+}
+
+.field-container {
+    font-size: 12px;
+}
+
+.field-container input {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.field-input {
+}
+
+/* dialog */
+
+@keyframes pop-dlg {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.dialog-layer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.dialog-layer-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fade-in 0.3s;
+}
+
+.dialog {
+    z-index: 2;
+    border-radius: 4px;
+    background-color: #fff;
+    animation: pop-dlg 0.3s;
+    width: 800px;
+    max-width: 90%;
+    overflow: hidden;
+    transform: scale(1);
+}
+
+.dialog .dialog-header {
+    font-size: 24px;
+    padding: 10px 25px 0 25px;
+    position: relative;
+}
+
+.dialog .dialog-header .close {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    z-index: 1;
+    right: 2px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.dialog .dialog-header .close::before, .dialog .dialog-header .close::after {
+    content: '';
+    position: absolute;
+    display: block;
+    background-color: #444;
+    transform: rotate(45deg);
+    transition: background-color 0.3s;
+}
+
+.dialog .dialog-header .close::before {
+    width: 1px;
+    height: 20px;
+    top: 8px;
+    left: 50%;
+}
+
+.dialog .dialog-header .close::after {
+    top: 50%;
+    left: 8px;
+    width: 20px;
+    height: 1px;
+}
+
+.dialog .dialog-body {
+    padding: 0 10px;
+}
+
+.dialog .dialog-footer {
+    text-align: center;
+    padding: 5px 0 20px 0;
+}
+
+.dialog .dialog-footer .btn {
+    width: 200px;
+}
+
+.dialog .dialog-footer .btn .loading-icon {
+    margin-left: 4px;
+}
+
+/* form */
+.rule-form .ipt-section {
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    padding: 1px 15px;
+    margin: 15px;
+    overflow: hidden;
+}
+
+.ipt-field {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.ipt-field .label {
+    width: 80px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.ipt-field .label.align-top {
+    align-self: flex-start;
+}
+
+.ipt-field .ipt-box {
+    flex: 1 1 auto;
+    border: solid 1px #eee;
+    border-radius: 3px;
+}
+
+.none-ipt {
+    height: 15px;
+}
+
+.action-group {
+    margin: 0 -15px;
+    padding: 2px 15px;
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.action-type {
+    display: flex;
+    margin-top: 15px;
+}
+
+.action-type .label {
+    width: 80px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.action-type select {
+    outline: none;
+    min-width: 200px;
+    border: solid 1px #eee;
+    background-color: #fff;
+}
+
+.ipt-field .ipt-box input, .ipt-box textarea {
+    width: 100%;
+    border: none;
+    outline: none;    
+    border-radius: 3px;
+    padding: 2px 4px;
+}
+
+/**/
+
+.del-confirm-title {
+    margin-right: 20px;
+}
+
+@keyframes blink {
+    0% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-6px);
+    }
+    50% {
+        transform: translateY(3px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.blink-rule {
+    animation: blink 0.4s;
+}
+
+.page-head-section {
+    margin-bottom: 0;
+}

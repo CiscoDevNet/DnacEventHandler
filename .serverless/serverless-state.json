@@ -1,0 +1,418 @@
+{
+  "service": {
+    "service": "dnaceventhandler",
+    "serviceObject": {
+      "name": "dnaceventhandler"
+    },
+    "provider": {
+      "stage": "dev",
+      "region": "ap-southeast-1",
+      "variableSyntax": "\\${([ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}",
+      "name": "aws",
+      "runtime": "nodejs8.10",
+      "deploymentBucket": "devnet-gocreate-ap-southeast-1-deployments",
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "KMS:Decrypt"
+          ],
+          "Resource": "arn:aws:kms:ap-southeast-1:512583958123:key/07e9ebff-9c5e-4eee-9ba2-9aaaaf9076c1"
+        }
+      ],
+      "environment": {
+        "REGION": "ap-southeast-1",
+        "STAGE": "dev",
+        "JWT_SECRET": "AQICAHji0XvkM8tCF3XooDLiMC3z72YvHhYx4in0pq77YuEZxgGwUS1L6J97Iz+3212w3J8zAAAAZjBkBgkqhkiG9w0BBwagVzBVAgEAMFAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMWiFStFmnhTyzY87JAgEQgCPTVf+4gr510vL/1Gx2gak2usqI4a18wLBsbPusfrHwrfJxCg==",
+        "CISCOSPARK_ACCESS_TOKEN": "ZjFlMmMyMDUtNTkyNS00ZDdhLWE0NDctYTQ3ZTZhOTlhMTlkZjZiY2VmNWEtZmQ0",
+        "TROPO_TOKEN": "41457461766c49436f4c6b56446e436f746a6c4b504c7458465a59495958627566436a696851797174456177",
+        "SMARTSHEET_WORKSPACE": "4270593995499396",
+        "SMARTSHEET_TOKEN": "AQICAHji0XvkM8tCF3XooDLiMC3z72YvHhYx4in0pq77YuEZxgGeqqS50yl29t4fAXvLvx4fAAAAeDB2BgkqhkiG9w0BBwagaTBnAgEAMGIGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMr/HS+SVEsCeP02enAgEQgDXAeL+cwH3lmg+bxbngPf89NH7l9zZB5JJPM1CcCJ9TSxArLkUPRfDCF6a2QkqYQ+VCx2pK8A==",
+        "RULES_SHEET": "devnet-dnaceventhandler-rule-dev"
+      },
+      "versionFunctions": true,
+      "remoteFunctionData": null,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "AppLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/dnaceventhandler-dev-app"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "dev",
+                        "dnaceventhandler",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/dnaceventhandler-dev-app:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/dnaceventhandler-dev-app:*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "dnaceventhandler",
+                    "dev",
+                    "ap-southeast-1",
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "AppLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "devnet-gocreate-ap-southeast-1-deployments",
+                "S3Key": "serverless/dnaceventhandler/dev/1527228567381-2018-05-25T06:09:27.381Z/dnaceventhandler.zip"
+              },
+              "FunctionName": "dnaceventhandler-dev-app",
+              "Handler": "main.handler",
+              "MemorySize": 1024,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs8.10",
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "REGION": "ap-southeast-1",
+                  "STAGE": "dev",
+                  "JWT_SECRET": "AQICAHji0XvkM8tCF3XooDLiMC3z72YvHhYx4in0pq77YuEZxgGwUS1L6J97Iz+3212w3J8zAAAAZjBkBgkqhkiG9w0BBwagVzBVAgEAMFAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMWiFStFmnhTyzY87JAgEQgCPTVf+4gr510vL/1Gx2gak2usqI4a18wLBsbPusfrHwrfJxCg==",
+                  "CISCOSPARK_ACCESS_TOKEN": "ZjFlMmMyMDUtNTkyNS00ZDdhLWE0NDctYTQ3ZTZhOTlhMTlkZjZiY2VmNWEtZmQ0",
+                  "TROPO_TOKEN": "41457461766c49436f4c6b56446e436f746a6c4b504c7458465a59495958627566436a696851797174456177",
+                  "SMARTSHEET_WORKSPACE": "4270593995499396",
+                  "SMARTSHEET_TOKEN": "AQICAHji0XvkM8tCF3XooDLiMC3z72YvHhYx4in0pq77YuEZxgGeqqS50yl29t4fAXvLvx4fAAAAeDB2BgkqhkiG9w0BBwagaTBnAgEAMGIGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMr/HS+SVEsCeP02enAgEQgDXAeL+cwH3lmg+bxbngPf89NH7l9zZB5JJPM1CcCJ9TSxArLkUPRfDCF6a2QkqYQ+VCx2pK8A==",
+                  "RULES_SHEET": "devnet-dnaceventhandler-rule-dev"
+                }
+              }
+            },
+            "DependsOn": [
+              "AppLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "AppLambdaVersionRboK9USYuWOifUAagcO9r2KMLHkNR65SHie3nAveGCA": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AppLambdaFunction"
+              },
+              "CodeSha256": "rikDOWy2sKuUVGKsGmCQgnS21egFgQcDc56CUGrYmG0="
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-dnaceventhandler",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              }
+            }
+          },
+          "ApiGatewayResourceProxyVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "{proxy+}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAny": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "ANY",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AppLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayMethodProxyVarAny": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "ANY",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProxyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AppLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1527228567559": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodAny",
+              "ApiGatewayMethodProxyVarAny"
+            ]
+          },
+          "AppLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AppLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "apigateway.",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    }
+                  ]
+                ]
+              },
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "devnet-gocreate-ap-southeast-1-deployments"
+          },
+          "AppLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AppLambdaVersionRboK9USYuWOifUAagcO9r2KMLHkNR65SHie3nAveGCA"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.ap-southeast-1.",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "custom": {
+      "stage": "dev",
+      "region": "ap-southeast-1",
+      "kmsSecrets": {
+        "secrets": {
+          "JWT_SECRET": "AQICAHji0XvkM8tCF3XooDLiMC3z72YvHhYx4in0pq77YuEZxgGwUS1L6J97Iz+3212w3J8zAAAAZjBkBgkqhkiG9w0BBwagVzBVAgEAMFAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMWiFStFmnhTyzY87JAgEQgCPTVf+4gr510vL/1Gx2gak2usqI4a18wLBsbPusfrHwrfJxCg==",
+          "SMARTSHEET_TOKEN": "AQICAHji0XvkM8tCF3XooDLiMC3z72YvHhYx4in0pq77YuEZxgGeqqS50yl29t4fAXvLvx4fAAAAeDB2BgkqhkiG9w0BBwagaTBnAgEAMGIGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMr/HS+SVEsCeP02enAgEQgDXAeL+cwH3lmg+bxbngPf89NH7l9zZB5JJPM1CcCJ9TSxArLkUPRfDCF6a2QkqYQ+VCx2pK8A=="
+        },
+        "keyArn": "arn:aws:kms:ap-southeast-1:512583958123:key/07e9ebff-9c5e-4eee-9ba2-9aaaaf9076c1"
+      },
+      "contentEncoding": {
+        "minimumCompressionSize": 860
+      }
+    },
+    "plugins": [
+      "serverless-kms-secrets",
+      "serverless-content-encoding",
+      "serverless-offline"
+    ],
+    "functions": {
+      "app": {
+        "handler": "main.handler",
+        "events": [
+          {
+            "http": "ANY /"
+          },
+          {
+            "http": "ANY {proxy+}"
+          }
+        ],
+        "name": "dnaceventhandler-dev-app",
+        "package": {},
+        "vpc": {}
+      }
+    },
+    "artifact": "/Users/haihxiao/Workspaces/go/src/wwwin-github.cisco.com/DevNet/DnacEventHandler/.serverless/dnaceventhandler.zip"
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/dnaceventhandler/dev/1527228567381-2018-05-25T06:09:27.381Z",
+    "artifact": "dnaceventhandler.zip"
+  }
+}

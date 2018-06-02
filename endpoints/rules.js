@@ -5,7 +5,7 @@
  **/
 
 const { get, post, del, put } = require("../middleware/route");
-const dao = require('../db/rule_ssheet');
+const dao = require('../db/rule_local');
 const Rule = require("../models/rule");
 const uuid = require('uuid');
 

@@ -1,4 +1,4 @@
-var rulesApiUrl = 'https://6v4niwpb7b.execute-api.ap-southeast-1.amazonaws.com/dev/v1/rules';
+var rulesApiUrl = '/v1/rules';
 
 Vue.component('ipt-field', {
     template: '#ipt-field',
@@ -160,7 +160,7 @@ Vue.component('application', {
         },*/
         buildActionsForModel: function (action) {
             var actions = {
-                type: 'tropo',
+                type: 'none',
                 tropo: {
                     action: 'tropo',
                     json: JSON.stringify({

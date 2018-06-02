@@ -5,7 +5,6 @@
  **/
 
 const request = require("request");
-const jwt = require("../services/jwt");
 const CiscoSpark = require('ciscospark');
 const format = require("string-template");
 
@@ -37,23 +36,6 @@ const executors = {
             }
         }
         r(opts);
-    },
-    email: async function(event, parameters) {
-        r({
-            url: 'https://mail.testing.devnetcloud.com/v1/mail',
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${await jwt.getSudoToken()}`
-            },
-            json: true,
-            body: {
-                subject: format(parameters.subject || '', event),
-                body: format(parameters.body || parameters.text || '', event),
-                email_address: {
-                    to: parameters.to.split(",")
-                }
-            }
-        });
     },
     spark: async function(event, parameters) {
         const spark = new CiscoSpark({

@@ -191,7 +191,7 @@
                             <tr>
                                 <th scope="col" style="width:1%;"># {{index + 1}}</th>
                                 <th scope="col" class="line">
-                                    <span>{{rule.name}} ({{rule.id}})</span>
+                                    <span>{{rule.name}}</span>
                                     <div v-if='!deletingRule || (rule.id != deletingRule.id)' class='rule-toolbar'>
                                         <i class="fas fa-pencil-alt" title="Edit" @click='editRule(rule)'></i>
                                         <i class="fas fa-trash-alt" title="Remove" @click='setDeletingRule(rule)'></i>

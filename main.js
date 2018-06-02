@@ -7,7 +7,6 @@
 const config = require('./config');
 const fs = require('fs');
 const express = require('express');
-require("./db/init");
 
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');

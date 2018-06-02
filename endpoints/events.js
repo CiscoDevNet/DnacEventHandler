@@ -6,7 +6,7 @@
 
 const { post } = require("../middleware/route");
 const Event = require("../models/event");
-const dao = require('../db/rule_ssheet');
+const dao = require('../db/rule_local');
 const action = require('../services/action');
 
 

@@ -1,0 +1,64 @@
+{
+  "id": "E-COMPLIANCE-SWIM-028d9986-1757-4e24-b896-2ceb017f7508-1525473015",
+  "name": "ImageOutdated",
+  "domain": "",
+  "description": "Softwareimageofdevice028d9986-1757-4e24-b896-2ceb017f7508isoutdated",
+  "category": "",
+  "type": "",
+  "status": "New",
+  "severity": "MEDIUM",
+  "priority": "P2",
+  "thresholdDefinitions": "",
+  "assignedTo": "",
+  "isCorrelatedEvent": "",
+  "actualServiceId": "e8:65:49:09:f9:7f",
+  "workflowIndicatorTrigger": "Incident",
+  "connectedDevice": [
+    {
+      "deviceDetails": {
+        "type": "CiscoCatalyst4500X-32SFP+Switch",
+        "family": "SwitchesandHubs",
+        "inventoryStatusDetail": "<status><generalcode='SUCCESS'\/><\/status>",
+        "series": "CiscoCatalyst4500-XSeriesSwitches",
+        "macAddress": "e8:65:49:09:f9:7f",
+        "hostname": "C3-D2-4500X-01.cisco.com",
+        "upTime": "265days,12:57:28.70",
+        "errorDescription": null,
+        "bootDateTime": "2017-08-1209:24:30",
+        "collectionStatus": "Managed",
+        "managementIpAddress": "17.0.161.4",
+        "memorySize": "939524096",
+        "reachabilityFailureReason": "",
+        "reachabilityStatus": "Reachable",
+        "collectionInterval": "GlobalDefault",
+        "lastUpdated": "2018-05-0422:22:03",
+        "serialNumber": "JAE19190791",
+        "softwareVersion": "03.08.02.E",
+        "id": "028d9986-1757-4e24-b896-2ceb017f7508",
+        "cisco360view": "https:\/\/172.19.205.68\/dna\/provision\/home"
+      }
+    }
+  ],
+  "imageDetails": {
+    "runningImage": {
+      "imageName": "cat4500e-universal.SPA.03.08.02.E.152-4.E2.bin",
+      "imageUuid": null,
+      "imageVersion": "03.08.02.E",
+      "imageFamily": "CAT4500E_SUP7",
+      "imageSizeInBytes": null,
+      "golden": false
+    },
+    "goldenImage": {
+      "imageName": "cat4500e-universal.SPA.03.06.05.E.152-2.E5.bin",
+      "imageUuid": "48d0eb96-8621-44d7-ab0a-e1f811b5df8d",
+      "imageVersion": "03.06.05.E",
+      "imageFamily": "CAT4500E_SUP7",
+      "imageSizeInBytes": 174341852,
+      "golden": true
+    },
+    "error": null,
+    "deviceUpgradeStatus": "OUTDATED",
+    "suggestedActions": "UpdatetheimageversiontothegoldenimageviatheDNACAPIs"
+  },
+  "timestamp": 1525473015
+}

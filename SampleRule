@@ -1,0 +1,9 @@
+{
+   "name":"test severity",
+   "condition": "this.severity === 'MEDIUM'",
+   "if": {
+        "action": "http",
+        "url": "https://runflow.built.io/run/YYY?authtoken=XXX",
+        "method": "POST"
+   }
+}

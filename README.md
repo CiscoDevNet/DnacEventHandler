@@ -28,7 +28,6 @@ Clone this Repository
 git clone https://github.com/CiscoDevNet/DnacEventHandler.git
 ~~~
 
-
 Install nodejs dependencies
 
 ~~~
@@ -40,7 +39,6 @@ npm i
 sls offline start 
 ~~~
 
-
 ### AWS Lambda Deployment
 1. Setup AWS access key and secret key
 
@@ -50,7 +48,6 @@ sls offline start
 export AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY
 export AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
 ~~~
-
 
 2. Deployment
 
@@ -67,7 +64,6 @@ sls deploy function -f app  # deploy code to AWS Lambda
 ~~~
 sls logs -f app -t
 ~~~
-
 
 ### Usage
 Start the server using the command:
@@ -94,14 +90,14 @@ There are 2 endpoints that this service exposes:
 ### Rules:
 Rule are very simple instructions written in Javascript format. Use curl to send a POST req using the sample RULE provided for reference in the file https://github.com/CiscoDevNet/DnacEventHandler/blob/master/SampleRule.json
 
-Rule will be evaluated in a context where **this** is the event passed to the rule for evaluation. Using **this** to reference a field in event, like: this.severity, this.priority,
-this.connectedDevice[0].hostname
-
 ~~~
 curl -H "Content-Type: application/json" -X POST --data @SampleRule.json http://0.0.0.0:3000/v1/rules
 ~~~
 
-
+Rule will be evaluated in a context where **this** is the event passed to the rule for evaluation. Using **this** to reference a field in event, like:
+* this.severity
+* this.priority
+* this.connectedDevice[0].hostname
 
 ### Events:
 

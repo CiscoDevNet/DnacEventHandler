@@ -17,7 +17,7 @@ let readJsonSync = function () {
 };
 
 let writeJsonSync = function (obj) {
-    fs.writeFileSync(filename, JSON.stringify(obj, null, '\t'));
+    fs.writeFileSync(config.ruleFile, JSON.stringify(obj, null, '\t'));
 };
 
 module.exports = exports = {

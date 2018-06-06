@@ -1,20 +1,2 @@
 [
-	{
-		"class": "Rule",
-		"id": "22643370-6937-11e8-8e56-594421efae65",
-		"name": "test priority",
-		"condition": "this.priority === 'P1'",
-		"if": {
-			"action": "spark",
-			"token": "ZjFlMmMyMDUtNTkyNS00ZDdhLWE0NDctYTQ3ZTZhOTlhMTlkZjZiY2VmNWEtZmQ0",
-			"to": "haihxiao@cisco.com",
-			"text": "hello, P1 priority"
-		},
-		"else": {
-			"action": "spark",
-			"token": "ZjFlMmMyMDUtNTkyNS00ZDdhLWE0NDctYTQ3ZTZhOTlhMTlkZjZiY2VmNWEtZmQ0",
-			"to": "haihxiao@cisco.com",
-			"text": "hello, not P1 priority"
-		}
-	}
 ]

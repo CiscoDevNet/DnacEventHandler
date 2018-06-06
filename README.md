@@ -1,7 +1,7 @@
 # DNA Center Assurance Event Handler
 This repo is an example of how to write a simple event handler for DNA Center Assurance (Events and Health)
 
-![](/Users/ashutosh/Desktop/Screen Shot 2018-06-05 at 4.18.31 PM.png)
+![](https://github.com/CiscoDevNet/DnacEventHandler/blob/master/webhook.png)
 This sample is written as a simple Microservice which uses the Serverless Framework
 
 ## Geting Started:

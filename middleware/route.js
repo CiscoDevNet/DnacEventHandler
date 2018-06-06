@@ -6,7 +6,6 @@
 
 const http = require('http');
 const abac = require('./abac');
-const service = require('../common/policy');
 
 let isClass = function(func) {
     return typeof func === 'function' && /^class\s/.test(Function.prototype.toString.call(func));
@@ -279,8 +278,7 @@ class Router {
         if(this.meta.method === 'del' && app['delete']) {
             methodFn = app['delete'];
         }
-        let policy = service.lookup(this.meta.path);
-        let route = methodFn.call(app, normalizedPath, abac(this.fn, policy ? policy.policy : null));
+        let route = methodFn.call(app, normalizedPath, abac(this.fn));
         routes.push({
             path: this.meta.path,
             models: this.meta.models,

@@ -130,24 +130,22 @@ Vue.component('application', {
                 type: 'tropo',
                 tropo: {
                     action: 'tropo',
+                    token: '',
                     to: '',
                     text: '',
                 },
                 spark: {
                     action: 'spark',
+                    token: '',
                     to: '',
                     text: '',
-                },
-                email: {
-                    action: 'email',
-                    to: '',
-                    subject: '',
-                    content: ''
                 },
                 http: {
                     action: 'http',
                     url: '',
-                    method: ''
+                    method: '',
+                    headers: {
+                    },
                 }
             }
 
@@ -164,6 +162,7 @@ Vue.component('application', {
                 tropo: {
                     action: 'tropo',
                     json: JSON.stringify({
+                        token: '',
                         to: '',
                         text: ''
                     }, null, 2)
@@ -171,26 +170,21 @@ Vue.component('application', {
                 spark: {
                     action: 'spark',
                     json: JSON.stringify({
+                        token: '',
                         to: '',
                         text: ''
-                    }, null, 2)
-                },
-                email: {
-                    action: 'email',
-                    json: JSON.stringify({
-                        to: '',
-                        subject: '',
-                        content: ''
                     }, null, 2)
                 },
                 http: {
                     action: 'http',
                     json: JSON.stringify({
                         url: '',
-                        method: ''
+                        method: '',
+                        headers: {
+                        }
                     }, null, 2)
                 }
-            }
+            };
 
             if (action) {
                 if (!action.action) {

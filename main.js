@@ -12,24 +12,14 @@ const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const user = require('./middleware/user');
-
-let corsOptions = {
-    origin: function (origin, callback) {
-        let result = config.corsList.length === 0 || config.corsList.indexOf(origin) !== -1;
-        callback(null, result);
-    }
-};
 
 const app = express();
 app.options('*', cors());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json({ strict: false }));
 app.use(cookieParser());
 
 app.use(config.public.path, express.static(config.public.directory, {redirect: false}));
-
-app.use("/v1/", user(app));
 
 fs.readdirSync("./endpoints/").forEach(file => {
     let name = file.split(".")[0];

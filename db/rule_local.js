@@ -5,15 +5,14 @@
  **/
 
 const Rule = require("../models/rule");
+const config = require('../config');
 const fs = require("fs");
-
-const filename = "rules.json";
 
 let readJsonSync = function () {
     try {
-        return JSON.parse(fs.readFileSync(filename, 'utf8'));
+        return JSON.parse(fs.readFileSync(config.ruleFile, 'utf8')).map(r => new Rule(r))
     } catch(e) {
-        return []
+        return [];
     }
 };
 

@@ -100,7 +100,7 @@
             <div :class='type == "textarea" ? "label align-top" : "label"'>{{label}}</div>
             <div class="ipt-box">
                 <input v-if='!type || type == "input"' :value="value" @input="update($event.target.value)" />
-                <textarea v-if='type == "textarea"' :value="value" @input="update($event.target.value)" rows='4'></textarea>
+                <textarea v-if='type == "textarea"' :value="value" @input="update($event.target.value)" rows='6'></textarea>
             </div>
         </div>
     </template>
@@ -114,7 +114,6 @@
                         <option value='' :selected='action.type == ""'>none</option>
                         <option value='tropo' :selected='action.type == "tropo"'>tropo</option>
                         <option value='spark' :selected='action.type == "spark"'>spark</option>
-                        <option value='email' :selected='action.type == "email"'>email</option>
                         <option value='http' :selected='action.type == "http"'>http</option>
                     </select>
                 </div>
@@ -126,9 +125,6 @@
             <div v-if='action.type == action.spark.action'>
                 <ipt-field label='content' :value='action.spark.json' @input='changeField(action.spark.action, $event)' type='textarea'></ipt-field>
             </div>
-            <div v-if='action.type == action.email.action'>
-                <ipt-field label='content' :value='action.email.json' @input='changeField(action.email.action, $event)' type='textarea'></ipt-field>
-            </div>
             <div v-if='action.type == action.http.action'>
                 <ipt-field label='content' :value='action.http.json' @input='changeField(action.http.action, $event)' type='textarea'></ipt-field>
             </div>
@@ -138,8 +134,8 @@
     <template id='rule-form'>
         <div class="rule-form">
             <div class="ipt-section">
-                <ipt-field label='name' :value='rule.name' @input='updateField("name", $event)'></ipt-field>
-                <ipt-field label='condition' :value='rule.condition' @input='updateField("condition", $event)'></ipt-field>
+                <ipt-field label='Name' :value='rule.name' @input='updateField("name", $event)'></ipt-field>
+                <ipt-field label='Condition' :value='rule.condition' @input='updateField("condition", $event)'></ipt-field>
             </div>
             <div class="ipt-section">
                 <div class="action-group">if</div>

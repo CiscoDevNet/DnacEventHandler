@@ -71,7 +71,7 @@ sls deploy function -f app  # deploy code to AWS Lambda
 ### Usage
 Start the server using the command:
 
-`$ sls offline`
+`$ sls offline start`
 
 Serverless: Starting Offline: dev/ap-southeast-1.
 
